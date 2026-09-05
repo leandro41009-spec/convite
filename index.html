@@ -7,9 +7,9 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: #111;
+      background-color: #0f0f0f;
       color: #333;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       display: flex;
       justify-content: center;
       min-height: 100vh;
@@ -17,72 +17,51 @@
     .container {
       width: 100%;
       max-width: 480px;
-      background: #fdfbf7;
+      background: #000;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 0 25px rgba(0,0,0,0.5);
-      text-align: center;
+      box-shadow: 0 0 25px rgba(0,0,0,0.8);
+      min-height: 100vh;
     }
 
-    /* TELA DE ENTRADA (CARTA / ENVELOPE) */
-    .envelope-screen {
+    /* TELA DE CAPA (A imagem da carta) */
+    .capa-wrapper {
       position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: url('capa.jpg') no-repeat center center / cover;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      padding-bottom: 60px;
+      top: 0; left: 0; 
+      width: 100%; height: 100%;
+      background: url('capa-ravi-convite.jpg') no-repeat center top / cover;
       z-index: 10;
       transition: opacity 0.8s ease, visibility 0.8s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    /* BOTÃO DA CARTA */
-    .btn-carta {
-      background: rgba(255, 255, 255, 0.95);
-      border: 2px solid #e0c38c;
-      border-radius: 16px;
-      padding: 20px 30px;
+    /* ÁREA CLICÁVEL INVISÍVEL SOBRE O ENVELOPE DA IMAGEM */
+    .area-envelope-clicavel {
+      width: 80%;
+      height: 28%;
+      margin-top: 10%; /* Ajuste fino de posição para cobrir exatamente o envelope */
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      border-radius: 12px;
+      /* Destaque sutil e pulsante para incentivar o clique */
       animation: pulso 2s infinite;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-carta span {
-      font-size: 18px;
-      font-weight: bold;
-      color: #7a5c29;
-      text-transform: lowercase;
-    }
-    .selo-cera {
-      width: 45px;
-      height: 45px;
-      background: #c0392b;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 20px;
-      box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
     }
 
     @keyframes pulso {
       0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      50% { transform: scale(1.03); }
       100% { transform: scale(1); }
     }
 
-    /* CONTEÚDO PRINCIPAL (REVELADO APÓS CLICAR) */
+    /* CONTEÚDO REVELADO APÓS CLICAR NO ENVELOPE */
     .conteudo-convite {
       display: none;
       opacity: 0;
       transition: opacity 1s ease;
       padding-bottom: 40px;
+      background-color: #fdfbf7;
+      min-height: 100vh;
     }
     .conteudo-convite.ativo {
       display: block;
@@ -91,57 +70,62 @@
 
     video, img { width: 100%; height: auto; display: block; }
     
+    /* BOTÕES FINAIS (WHATSAPP E MAPA) */
     .botoes-acao {
-      padding: 20px;
+      padding: 24px 20px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
     .btn-link {
-      display: block;
-      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
       border-radius: 12px;
       text-decoration: none;
       font-weight: bold;
+      font-size: 16px;
       color: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: transform 0.2s;
     }
+    .btn-link:active { transform: scale(0.98); }
     .btn-wsp { background-color: #25D366; }
-    .btn-mapa { background-color: #4285F4; }
+    .btn-mapa { background-color: #1a73e8; }
   </style>
 </head>
 <body>
 
   <div class="container">
     
-    <!-- Tela Inicial com a Carta -->
-    <div class="envelope-screen" id="envelopeScreen">
-      <div class="btn-carta" onclick="abrirConvite()">
-        <div class="selo-cera">🌈</div>
-        <span>clique para abrir</span>
-      </div>
+    <!-- Tela Inicial de Capa -->
+    <div class="capa-wrapper" id="capaWrapper">
+      <!-- Esta div transparente fica exatamente por cima da carta/envelope na imagem -->
+      <div class="area-envelope-clicavel" onclick="abrirConvite()" title="Clique para abrir"></div>
     </div>
 
-    <!-- Conteúdo que aparece quando abre a carta -->
+    <!-- Conteúdo Interno que abre quando clica -->
     <div class="conteudo-convite" id="conteudoConvite">
       
-      <!-- Vídeo de Animação do Convite -->
-      <video id="videoConvite" playsinline loop muted poster="capa.jpg">
+      <!-- Vídeo Animado (se tiver) ou Imagem Interna do Convite -->
+      <video id="videoConvite" playsinline loop muted poster="capa-ravi-convite.jpg">
         <source src="video.mp4" type="video/mp4">
       </video>
 
       <!-- Áudio de Fundo -->
       <audio id="musicaFundo" loop src="musica.mp3"></audio>
 
-      <!-- Imagem das Informações se não usar vídeo -->
-      <img src="pagina1.jpg" alt="A Arca do Ravi">
-
       <!-- Botões de Ação -->
       <div class="botoes-acao">
+        <!-- Coloque seu número do WhatsApp com DDD abaixo -->
         <a class="btn-link btn-wsp" href="https://wa.me/5519999999999?text=Ol%C3%A1!%20Confirmo%20presen%C3%A7a%20no%20anivers%C3%A1rio%20do%20Ravi!" target="_blank">
-          Confirmar Presença
+          Confirmar Presença (WhatsApp)
         </a>
+        
+        <!-- Cole o link do Google Maps da festa abaixo -->
         <a class="btn-link btn-mapa" href="https://maps.google.com" target="_blank">
-          Ver Localização no Mapa
+          Como Chegar (Google Maps)
         </a>
       </div>
 
@@ -151,20 +135,21 @@
 
   <script>
     function abrirConvite() {
-      const envelope = document.getElementById('envelopeScreen');
+      const capa = document.getElementById('capaWrapper');
       const conteudo = document.getElementById('conteudoConvite');
       const musica = document.getElementById('musicaFundo');
       const video = document.getElementById('videoConvite');
 
-      // Esconde a carta
-      envelope.style.opacity = '0';
+      // Animação de fade-out da capa
+      capa.style.opacity = '0';
+      
       setTimeout(() => {
-        envelope.style.display = 'none';
+        capa.style.display = 'none';
         conteudo.classList.add('ativo');
         
-        // Toca a música e o vídeo
-        if(musica) musica.play();
-        if(video) video.play();
+        // Toca o áudio e o vídeo automaticamente
+        if(musica) musica.play().catch(() => {});
+        if(video) video.play().catch(() => {});
       }, 800);
     }
   </script>

@@ -37,14 +37,13 @@
       align-items: center;
     }
 
-    /* ÁREA CLICÁVEL INVISÍVEL SOBRE O ENVELOPE DA IMAGEM */
+    /* ÁREA CLICÁVEL INVISÍVEL SOBRE O ENVELOPE */
     .area-envelope-clicavel {
       width: 80%;
       height: 28%;
-      margin-top: 10%; /* Ajuste fino de posição para cobrir exatamente o envelope */
+      margin-top: 10%;
       cursor: pointer;
       border-radius: 12px;
-      /* Destaque sutil e pulsante para incentivar o clique */
       animation: pulso 2s infinite;
     }
 
@@ -68,9 +67,9 @@
       opacity: 1;
     }
 
-    video, img { width: 100%; height: auto; display: block; }
+    video { width: 100%; height: auto; display: block; }
     
-    /* BOTÕES FINAIS (WHATSAPP E MAPA) */
+    /* BOTÕES FINAIS */
     .botoes-acao {
       padding: 24px 20px;
       display: flex;
@@ -99,31 +98,21 @@
 
   <div class="container">
     
-    <!-- Tela Inicial de Capa -->
     <div class="capa-wrapper" id="capaWrapper">
-      <!-- Esta div transparente fica exatamente por cima da carta/envelope na imagem -->
       <div class="area-envelope-clicavel" onclick="abrirConvite()" title="Clique para abrir"></div>
     </div>
 
-    <!-- Conteúdo Interno que abre quando clica -->
     <div class="conteudo-convite" id="conteudoConvite">
       
-      <!-- Vídeo Animado (se tiver) ou Imagem Interna do Convite -->
-      <video id="videoConvite" playsinline loop muted poster="capa-ravi-convite.jpg">
-        <source src="video.mp4" type="video/mp4">
+      <video id="videoConvite" playsinline loop poster="capa-ravi-convite.jpg">
+        <source src="convite-ravi (1).mp4" type="video/mp4">
       </video>
 
-      <!-- Áudio de Fundo -->
-      <audio id="musicaFundo" loop src="musica.mp3"></audio>
-
-      <!-- Botões de Ação -->
       <div class="botoes-acao">
-        <!-- Coloque seu número do WhatsApp com DDD abaixo -->
         <a class="btn-link btn-wsp" href="https://wa.me/5519999999999?text=Ol%C3%A1!%20Confirmo%20presen%C3%A7a%20no%20anivers%C3%A1rio%20do%20Ravi!" target="_blank">
           Confirmar Presença (WhatsApp)
         </a>
         
-        <!-- Cole o link do Google Maps da festa abaixo -->
         <a class="btn-link btn-mapa" href="https://maps.google.com" target="_blank">
           Como Chegar (Google Maps)
         </a>
@@ -137,19 +126,18 @@
     function abrirConvite() {
       const capa = document.getElementById('capaWrapper');
       const conteudo = document.getElementById('conteudoConvite');
-      const musica = document.getElementById('musicaFundo');
       const video = document.getElementById('videoConvite');
 
-      // Animação de fade-out da capa
       capa.style.opacity = '0';
       
       setTimeout(() => {
         capa.style.display = 'none';
         conteudo.classList.add('ativo');
         
-        // Toca o áudio e o vídeo automaticamente
-        if(musica) musica.play().catch(() => {});
-        if(video) video.play().catch(() => {});
+        if(video) {
+          video.currentTime = 0;
+          video.play().catch(() => {});
+        }
       }, 800);
     }
   </script>

@@ -3,82 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Convite Especial</title>
+  <title>A Arca do Ravi - Convite 1 Aninho</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { 
-      background-color: #0f0f0f; 
-      color: #fff; 
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    body {
+      background-color: #111;
+      color: #333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       justify-content: center;
-    }
-    .container { 
-      width: 100%; 
-      max-width: 480px; 
-      background-color: #000;
       min-height: 100vh;
-      padding-bottom: 40px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.8);
     }
-    img, video { 
-      width: 100%; 
-      height: auto; 
-      display: block; 
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: #fdfbf7;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0,0,0,0.5);
+      text-align: center;
     }
-    .botoes-wrapper { 
-      padding: 24px 20px; 
-      display: flex; 
-      flex-direction: column; 
-      gap: 14px; 
+
+    /* TELA DE ENTRADA (CARTA / ENVELOPE) */
+    .envelope-screen {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: url('capa.jpg') no-repeat center center / cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding-bottom: 60px;
+      z-index: 10;
+      transition: opacity 0.8s ease, visibility 0.8s;
     }
-    .btn { 
+
+    /* BOTÃO DA CARTA */
+    .btn-carta {
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #e0c38c;
+      border-radius: 16px;
+      padding: 20px 30px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      animation: pulso 2s infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-carta span {
+      font-size: 18px;
+      font-weight: bold;
+      color: #7a5c29;
+      text-transform: lowercase;
+    }
+    .selo-cera {
+      width: 45px;
+      height: 45px;
+      background: #c0392b;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px; 
-      color: #ffffff; 
-      text-decoration: none; 
-      border-radius: 12px; 
-      font-weight: 700; 
-      font-size: 16px;
-      text-align: center;
-      transition: transform 0.2s, opacity 0.2s;
+      color: #fff;
+      font-size: 20px;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
     }
-    .btn:active { transform: scale(0.98); }
+
+    @keyframes pulso {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* CONTEÚDO PRINCIPAL (REVELADO APÓS CLICAR) */
+    .conteudo-convite {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+      padding-bottom: 40px;
+    }
+    .conteudo-convite.ativo {
+      display: block;
+      opacity: 1;
+    }
+
+    video, img { width: 100%; height: auto; display: block; }
+    
+    .botoes-acao {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .btn-link {
+      display: block;
+      padding: 15px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #fff;
+    }
     .btn-wsp { background-color: #25D366; }
-    .btn-mapa { background-color: #1a73e8; }
-    .btn-pix { background-color: #00bdae; }
+    .btn-mapa { background-color: #4285F4; }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- Vídeo ou Animação de Abertura -->
-    <video playsinline autoplay loop muted poster="capa.jpg">
-      <source src="video.mp4" type="video/mp4">
-    </video>
-
-    <!-- Áudio de Fundo -->
-    <audio id="musica" loop autoplay src="musica.mp3"></audio>
-
-    <!-- Páginas/Artes do Convite -->
-    <img src="pagina1.jpg" alt="Detalhes do Evento">
-    <img src="pagina2.jpg" alt="Informações Adicionais">
-
-    <!-- Botões Interativos -->
-    <div class="botoes-wrapper">
-      <!-- Substitua o número 5519999999999 pelo seu WhatsApp com DDD -->
-      <a class="btn btn-wsp" href="https://wa.me/5519999999999?text=Ol%C3%A1!%20Confirmo%20minha%20presen%C3%A7a%20na%20festa!" target="_blank">
-        Confirmar Presença (WhatsApp)
-      </a>
-
-      <!-- Cole aqui o link do Google Maps do local -->
-      <a class="btn btn-mapa" href="https://maps.google.com" target="_blank">
-        Como Chegar (Google Maps)
-      </a>
+    
+    <!-- Tela Inicial com a Carta -->
+    <div class="envelope-screen" id="envelopeScreen">
+      <div class="btn-carta" onclick="abrirConvite()">
+        <div class="selo-cera">🌈</div>
+        <span>clique para abrir</span>
+      </div>
     </div>
+
+    <!-- Conteúdo que aparece quando abre a carta -->
+    <div class="conteudo-convite" id="conteudoConvite">
+      
+      <!-- Vídeo de Animação do Convite -->
+      <video id="videoConvite" playsinline loop muted poster="capa.jpg">
+        <source src="video.mp4" type="video/mp4">
+      </video>
+
+      <!-- Áudio de Fundo -->
+      <audio id="musicaFundo" loop src="musica.mp3"></audio>
+
+      <!-- Imagem das Informações se não usar vídeo -->
+      <img src="pagina1.jpg" alt="A Arca do Ravi">
+
+      <!-- Botões de Ação -->
+      <div class="botoes-acao">
+        <a class="btn-link btn-wsp" href="https://wa.me/5519999999999?text=Ol%C3%A1!%20Confirmo%20presen%C3%A7a%20no%20anivers%C3%A1rio%20do%20Ravi!" target="_blank">
+          Confirmar Presença
+        </a>
+        <a class="btn-link btn-mapa" href="https://maps.google.com" target="_blank">
+          Ver Localização no Mapa
+        </a>
+      </div>
+
+    </div>
+
   </div>
+
+  <script>
+    function abrirConvite() {
+      const envelope = document.getElementById('envelopeScreen');
+      const conteudo = document.getElementById('conteudoConvite');
+      const musica = document.getElementById('musicaFundo');
+      const video = document.getElementById('videoConvite');
+
+      // Esconde a carta
+      envelope.style.opacity = '0';
+      setTimeout(() => {
+        envelope.style.display = 'none';
+        conteudo.classList.add('ativo');
+        
+        // Toca a música e o vídeo
+        if(musica) musica.play();
+        if(video) video.play();
+      }, 800);
+    }
+  </script>
 
 </body>
 </html>

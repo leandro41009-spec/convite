@@ -8,7 +8,7 @@
   <!-- Prévia para compartilhamento no WhatsApp -->
   <meta property="og:title" content="1º Aniversário do Ravi Zoz Auad 🎈" />
   <meta property="og:description" content="Clique para abrir o convite especial de 1 aninho do Ravi!" />
-  <meta property="og:image" content="https://convite-lovat-zeta.vercel.app/capa-ravi-convite.jpg" />
+  <meta property="og:image" content="https://convite-lovat-zeta.vercel.app/convite-ravi-galinha-pintadinha.jpg" />
   <meta property="og:url" content="https://convite-lovat-zeta.vercel.app/" />
   <meta property="og:type" content="website" />
 
@@ -39,28 +39,29 @@
       flex-direction: column;
     }
 
-    /* TELA DE CAPA (A imagem da Galinha Pintadinha com o Ravi) */
+    /* TELA DE CAPA COM A IMAGEM DA GALINHA PINTADINHA DO GITHUB */
     .capa-wrapper {
       position: absolute;
       top: 0; left: 0; 
       width: 100%; height: 100%;
-      background: url('capa-ravi-convite.jpg') no-repeat center center / cover;
+      background: url('convite-ravi-galinha-pintadinha.jpg') no-repeat center center / cover;
       z-index: 10;
       transition: opacity 0.8s ease, visibility 0.8s;
       display: flex;
       justify-content: center;
       align-items: flex-end;
-      padding-bottom: 12%; /* Alinha a área clicável ao botão da imagem */
+      padding-bottom: 12%;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* ÁREA CLICÁVEL TRANSPARENTE SOBRE O BOTÃO DESENHADO */
+    /* ÁREA DO BOTÃO COM EFEITO DE PULSO SOBRE A ARTE */
     .botao-transparente-clicavel {
       width: 82%;
       height: 14%;
-      cursor: pointer;
       border-radius: 35px;
       animation: pulso-suave 1.8s infinite;
-      -webkit-tap-highlight-color: transparent;
+      pointer-events: none;
     }
 
     @keyframes pulso-suave {
@@ -87,7 +88,7 @@
       opacity: 1;
     }
 
-    /* VÍDEO ANIMADO DO RAVI */
+    /* VÍDEO ANIMADO */
     .video-container {
       width: 100%;
       flex: 1;
@@ -105,7 +106,7 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     
-    /* BOTÕES FINAIS (WHATSAPP E MAPS) */
+    /* BOTÕES FINAIS */
     .botoes-acao {
       width: 100%;
       display: flex;
@@ -138,17 +139,17 @@
 
   <div class="container">
     
-    <!-- Capa com área invisível sobre o botão "CLIQUE AQUI PARA ABRIR O CONVITE" -->
-    <div class="capa-wrapper" id="capaWrapper">
-      <div class="botao-transparente-clicavel" onclick="abrirConvite()" title="Clique para abrir o convite"></div>
+    <!-- Capa com a imagem carregada do GitHub -->
+    <div class="capa-wrapper" id="capaWrapper" onclick="abrirConvite()">
+      <div class="botao-transparente-clicavel"></div>
     </div>
 
     <!-- Conteúdo do Convite -->
     <div class="conteudo-convite" id="conteudoConvite">
       
-      <!-- Vídeo Animado "video-convite-ravi.mp4" -->
       <div class="video-container">
-        <video id="videoConvite" playsinline loop poster="capa-ravi-convite.jpg">
+        <!-- Vídeo 'video-convite-ravi.mp4' do seu repositório -->
+        <video id="videoConvite" playsinline loop poster="convite-ravi-galinha-pintadinha.jpg">
           <source src="video-convite-ravi.mp4" type="video/mp4">
         </video>
       </div>
@@ -174,6 +175,8 @@
       const conteudo = document.getElementById('conteudoConvite');
       const video = document.getElementById('videoConvite');
 
+      if (capa.style.display === 'none') return;
+
       capa.style.opacity = '0';
       
       setTimeout(() => {
@@ -182,9 +185,14 @@
         
         if(video) {
           video.currentTime = 0;
-          video.play().catch(() => {});
+          const promise = video.play();
+          if (promise !== undefined) {
+            promise.catch(error => {
+              console.log("Autoplay impedido pelo navegador:", error);
+            });
+          }
         }
-      }, 800);
+      }, 500);
     }
   </script>
 

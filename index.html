@@ -3,14 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>A Arca do Ravi - Convite 1 Aninho</title>
+  <title>1º Aniversário do Ravi Zoz Auad</title>
+
+  <!-- Prévia para compartilhamento no WhatsApp -->
+  <meta property="og:title" content="1º Aniversário do Ravi Zoz Auad 🎈" />
+  <meta property="og:description" content="Clique para abrir o convite especial de 1 aninho do Ravi!" />
+  <meta property="og:image" content="https://convite-lovat-zeta.vercel.app/capa-ravi-convite.jpg" />
+  <meta property="og:url" content="https://convite-lovat-zeta.vercel.app/" />
+  <meta property="og:type" content="website" />
+
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
     html, body {
       height: 100%;
       width: 100%;
-      overflow: hidden; /* Evita rolagens indesejadas */
+      overflow: hidden;
       background-color: #0f0f0f;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       display: flex;
@@ -21,8 +29,8 @@
     .container {
       width: 100%;
       max-width: 480px;
-      height: 100vh; /* Ocupa exatamente a altura da tela do celular */
-      height: 100dvh; /* Altura dinâmica para navegadores móbile */
+      height: 100vh;
+      height: 100dvh;
       background: #fdfbf7;
       position: relative;
       overflow: hidden;
@@ -31,36 +39,37 @@
       flex-direction: column;
     }
 
-    /* TELA DE CAPA (A imagem da carta) */
+    /* TELA DE CAPA (A imagem da Galinha Pintadinha com o Ravi) */
     .capa-wrapper {
       position: absolute;
       top: 0; left: 0; 
       width: 100%; height: 100%;
-      background: url('capa-ravi-convite.jpg') no-repeat center top / cover;
+      background: url('capa-ravi-convite.jpg') no-repeat center center / cover;
       z-index: 10;
       transition: opacity 0.8s ease, visibility 0.8s;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-end;
+      padding-bottom: 12%; /* Alinha a área clicável ao botão da imagem */
     }
 
-    /* ÁREA CLICÁVEL INVISÍVEL SOBRE O ENVELOPE */
-    .area-envelope-clicavel {
-      width: 80%;
-      height: 28%;
-      margin-top: 10%;
+    /* ÁREA CLICÁVEL TRANSPARENTE SOBRE O BOTÃO DESENHADO */
+    .botao-transparente-clicavel {
+      width: 82%;
+      height: 14%;
       cursor: pointer;
-      border-radius: 12px;
-      animation: pulso 2s infinite;
+      border-radius: 35px;
+      animation: pulso-suave 1.8s infinite;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    @keyframes pulso {
+    @keyframes pulso-suave {
       0% { transform: scale(1); }
       50% { transform: scale(1.03); }
       100% { transform: scale(1); }
     }
 
-    /* CONTEÚDO REVELADO APÓS CLICAR NO ENVELOPE */
+    /* CONTEÚDO REVELADO APÓS O CLIQUE (VÍDEO + BOTÕES) */
     .conteudo-convite {
       display: none;
       opacity: 0;
@@ -78,14 +87,14 @@
       opacity: 1;
     }
 
-    /* VÍDEO COMPACTO PARA CABER TUDO NA TELA */
+    /* VÍDEO ANIMADO DO RAVI */
     .video-container {
       width: 100%;
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 0; /* Permite encolher em telas pequenas */
+      min-height: 0;
     }
 
     video {
@@ -96,14 +105,14 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     
-    /* BOTÕES FINAIS */
+    /* BOTÕES FINAIS (WHATSAPP E MAPS) */
     .botoes-acao {
       width: 100%;
       display: flex;
       flex-direction: column;
       gap: 10px;
       padding-top: 10px;
-      flex-shrink: 0; /* Garante que os botões nunca diminuam de tamanho */
+      flex-shrink: 0;
     }
 
     .btn-link {
@@ -129,18 +138,22 @@
 
   <div class="container">
     
+    <!-- Capa com área invisível sobre o botão "CLIQUE AQUI PARA ABRIR O CONVITE" -->
     <div class="capa-wrapper" id="capaWrapper">
-      <div class="area-envelope-clicavel" onclick="abrirConvite()" title="Clique para abrir"></div>
+      <div class="botao-transparente-clicavel" onclick="abrirConvite()" title="Clique para abrir o convite"></div>
     </div>
 
+    <!-- Conteúdo do Convite -->
     <div class="conteudo-convite" id="conteudoConvite">
       
+      <!-- Vídeo Animado "video-convite-ravi.mp4" -->
       <div class="video-container">
         <video id="videoConvite" playsinline loop poster="capa-ravi-convite.jpg">
-          <source src="convite-ravi (1).mp4" type="video/mp4">
+          <source src="video-convite-ravi.mp4" type="video/mp4">
         </video>
       </div>
 
+      <!-- Botões de Ação -->
       <div class="botoes-acao">
         <a class="btn-link btn-wsp" href="https://wa.me/5519983348474?text=Ol%C3%A1!%20Confirmo%20presen%C3%A7a%20no%20anivers%C3%A1rio%20do%20Ravi!" target="_blank">
           Confirmar Presença (WhatsApp)
